@@ -1,10 +1,11 @@
-(function(){
+(function () {
     'use strict';
-    const bloomDataURL = "https://media.githubusercontent.com/media/ESUAdmin/weibo-leaks/master/bloom-filter-data.bin"
+    const bloomDataURL = "https://weibo.eswk.workers.dev/";
     const magicNumbers = [0n, 810n, 893n, 1919n, 114514n, 1919810n];
-    const byteOffset = 8; // sizeof std::size_t
+    const byteOffset = 8n; // sizeof std::size_t
     const maxBytes = 512892944n;
-    const bitSize =  4103143449n;
+    const bitSize = 4103143449n;
+    const trueRate = Math.round(1000000 / 102) / 100;
 
     const fnv_prime_64 = 1099511628211n;
     const fnv_offset_basis = 14695981039346656037n;
@@ -18,20 +19,20 @@
     }
 
     async function getNthByte(fileByteIndex) {
-        const partIndex = fileByteIndex % 1024;
-        const begin = (fileByteIndex >> 10) << 10;
-        let end = ((fileByteIndex >> 10) << 10) + 1023;
-        if (end >= maxBytes) end = maxBytes - 1;
+        console.log(fileByteIndex);
+        const partIndex = fileByteIndex % 1024n;
+        const begin = (fileByteIndex / 1024n) * 1024n;
+        let end = begin + 1023n;
+        if (end >= maxBytes) end = maxBytes - 1n;
 
         console.log(begin, end, partIndex);
         const response = await fetch(bloomDataURL, {
             "headers": {
-                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
                 "sec-fetch-dest": "document",
                 "sec-fetch-mode": "navigate",
                 "sec-fetch-site": "none",
                 "sec-fetch-user": "?1",
-                "range": `bytes=${begin}-${end}`,
+                "range": `bytes=${Number(begin)}-${Number(end)}`,
             },
             "referrerPolicy": "no-referrer-when-downgrade",
             "body": null,
@@ -40,12 +41,12 @@
             "credentials": "omit"
         });
         const bytes = new Uint8Array(await response.arrayBuffer());
-        return bytes[partIndex];
+        return bytes[Number(partIndex)];
     }
 
     async function getBloomBit(bitIndex) {
-        const byteIndex = byteOffset + (bitIndex >> 3);
-        const inner = bitIndex % 8;
+        const byteIndex = byteOffset + (bitIndex >> 3n);
+        const inner = Number(bitIndex % 8n);
         return (await getNthByte(byteIndex) >> inner) & 1;
     }
 
@@ -55,13 +56,13 @@
             bytes.push(Number(big % 256n));
             big >>= 8n;
         }
-        console.log(bytes.concat(new Array(8-bytes.length).fill(0)));
-        return bytes.concat(new Array(8-bytes.length).fill(0));
+        console.log(bytes.concat(new Array(8 - bytes.length).fill(0)));
+        return bytes.concat(new Array(8 - bytes.length).fill(0));
     }
 
     function mixHash(uid, p) {
         return fnv_1a_64(
-            bi2bytes( ((p << 32n) | BigInt(uid)) )
+            bi2bytes(((p << 32n) | BigInt(uid)))
         ) % bitSize;
     }
 
@@ -71,4 +72,21 @@
         }
         return true;
     }
+
+    document.querySelector("button#chudao").addEventListener('click', async () => {
+        const resultText = document.querySelector("p#result");
+        const uid = parseInt(document.querySelector("input#uid").value);
+        if (isNaN(uid)) {
+            alert("你在干什么？");
+            return false;
+        }
+        resultText.innerText = "正在创象出道中…… 可能需要亿点时间 ……";
+        if (await queryBloom(uid)) {
+            alert("恭喜！已被开盒。");
+            resultText.innerText = `${uid} 有 ${trueRate}% 概率已经被出道，，，`;
+        } else {
+            alert("很好，你没事了。");
+            resultText.innerText = `${uid} 安全，没有记录。`;
+        }
+    })
 })();

@@ -1,14 +1,87 @@
-<!DOCTYPE HTML>
-<html lang="zh-cn">
+<!DOCTYPE html>
+<html lang="zh">
 <head>
-	<meta charset="utf-8">
-	<title>微博绑泄露查询 - Weibo Leaks 2020</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>微博绑泄露查询 - Weibo Leaks 2020</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-	<h1>给他来点厉害的！</h1>
-	<p><label for="uid">请输入您的 UID：</label></p>
-	<p><input id="uid" type="text" placeholder="查询是否泄露……">
-	<button id="chudao">尝试开绑</button></p>
-</body>
+
+<nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">微博绑</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a class="propagate">免费宣传</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="sidenav">
+            <li><a class="propagate">免费宣传</a></li>
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center orange-text">给他来点厉害的！</h1>
+        <div class="row center">
+            <label for="uid">
+                <h5 class="header col s12">请输入恁的微博 UID 查询是否已出道</h5>
+            </label>
+            <input type="number" id="uid" placeholder="3325704142 // 李永乐老师的微博">
+            <p id="result">本工具只能告诉您是否出道，并不能获得粉丝热线</p>
+        </div>
+        <div class="row center">
+            <button id="chudao"
+               class="btn-large waves-effect waves-light red">一键出道</button>
+        </div>
+        <br><br>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="section">
+        <!--   Icon Section   -->
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
+                    <h5 class="center">太快了</h5>
+                    <p class="light">使用 HTTP Range Request 只需要加载 6KB 数据即可完成查询。</p>
+                </div>
+            </div>
+
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+                    <h5 class="center">巨大泄密</h5>
+                    <p class="light">虽然不包含密码，但含有手机号，这足以让恁暴露真实身份！</p>
+                </div>
+            </div>
+
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
+                    <h5 class="center">可重用</h5>
+                    <p class="light">恶俗维基乐意为中国信息安全作免费宣传，欢迎各位多多炒作取乐。</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br><br>
+</div>
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.js"></script>
+<script src="js/init.js"></script>
 <script type="text/javascript" src="main.js"></script>
+</body>
 </html>
