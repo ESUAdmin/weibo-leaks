@@ -31,7 +31,7 @@
             }
         } else {
             alert(`查询出现问题…… 代码 ${response.status}`);
-            resultText.innerText = await response.text();
+            resultText.innerText = text;
         }
     });
 })();
